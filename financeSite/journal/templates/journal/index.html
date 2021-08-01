@@ -1,11 +1,24 @@
 {% extends 'journal/base.html' %}
-
-{% block title %}Journal Entry{% endblock %}
+{% block title %}My Journal{% endblock %}
 
 {% block content %}
-<ul>
-    {% for x in jl.all %}
-        <li>{{x.dbt}}</li>
+    <h1>{{cnt.text}}</h1>
+<form method='post' action='#'>
+    {% csrf_token %}
+    {% for x in cnt.debit_set.all %}
+        <label>{{x.dbt}}...........{{x.dbt_amount}}</label>
+        <br>
+        {% for y in x.credit_set.all %}
+            <label>__________{{y.cdt}}...........{{y.cdt_amount}}</label><br>
+
     {% endfor %}
-</ul>
+    <br>
+    <label for="transaction">Transaction:</label>
+    <input type="text" id="transaction" name="transaction"><br><br>
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" name="amount"><br><br>
+  
+    <button type='submit' name='debit' value='newItem'>DEBIT</button>
+    <button type='submit' name='credit' value='newItem'>CREDIT</button>
+</form>
 {% endblock %}

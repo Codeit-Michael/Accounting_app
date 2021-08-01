@@ -1,0 +1,11 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Journal Entry{% endblock %}
+
+{% block content %}
+<ul>
+    {% for x in jl.all %}
+        <li><a href='{% url "journal:index" x.id %}'>{{x.text}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
