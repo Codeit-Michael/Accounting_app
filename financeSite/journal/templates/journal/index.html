@@ -2,23 +2,25 @@
 {% block title %}My Journal{% endblock %}
 
 {% block content %}
-    <h1>{{cnt.text}}</h1>
+<h1>{{cnt.text}}</h1>
 <form method='post' action='#'>
     {% csrf_token %}
     {% for x in cnt.debit_set.all %}
-        <label>{{x.dbt}}...........{{x.dbt_amount}}</label>
-        <br>
+        <label>{{x.dbt}}...........{{x.dbt_amount}}</label><br>
         {% for y in x.credit_set.all %}
             <label>__________{{y.cdt}}...........{{y.cdt_amount}}</label><br>
-
+        {% endfor %}
     {% endfor %}
-    <br>
-    <label for="transaction">Transaction:</label>
-    <input type="text" id="transaction" name="transaction"><br><br>
-    <label for="amount">Amount:</label>
+    <br><hr>
+    <label for="debitTrans">Debit Transaction:</label>
+    <input type="text" id="debitTrans" name="debitTrans"><br><br>
+
+    <label for="creditTrans">Credit Transaction:</label>
+    <input type="text" id="creditTrans" name="creditTrans"><br><br>
+
+    <label for="amount">Their Amount:</label>
     <input type="text" id="amount" name="amount"><br><br>
-  
-    <button type='submit' name='debit' value='newItem'>DEBIT</button>
-    <button type='submit' name='credit' value='newItem'>CREDIT</button>
+
+    <input type="submit" value="submit">
 </form>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block title %}Journal{% endblock %}
 
 {% block content %}
+<legend><h1>Create Entry List</h1></legend>
 <form method='post' action='/create/'>
     {% csrf_token %}
         {{form.journal_name}}

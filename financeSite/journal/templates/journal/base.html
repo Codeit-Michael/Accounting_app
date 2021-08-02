@@ -1,10 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<style type="text/css">
+		body{
+			display: flex;
+			margin: 0;
+			padding: 0;
+			gap: 50px;
+		}
+
+		.sidenav {
+			height: 100%;
+			width: 160px;
+			height: 100vh;
+			background-color: #111;
+			overflow-x: hidden;
+			padding-top: 20px; 
+		}
+
+		.sidenav a{
+			padding: 6px 8px 6px 16px;
+			text-decoration: none;
+			font-size: 25px;
+			color: #8b7272;
+			display: block;
+		}
+
+	.sidenav a:hover{
+		color: #f1f1f1;
+	}
+
+	.main{
+		margin-left: 160px;
+		padding: 0px 10px;
+
+	}
+
+	</style>
+
 	<title>{% block title %}{% endblock %}</title>
 </head>
-<body>
-	{% block content %}
-	{% endblock %}
-</body>
+	<div class="sidenav">
+		<a href='{% url "journal:home" %}'>Home/My lists</a>
+		<a href='{% url "journal:create" %}'>Create Entry list</a>
+	</div>
+
+	<body>
+		<div class="main">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>
 </html>

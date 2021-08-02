@@ -13,19 +13,20 @@ def index(response,id):
     cnt = my_journal.objects.get(id=id)
 
     if response.method == 'POST':
-        if response.POST.get('debit'):
-            txt = response.POST.get('transaction')
-            amt = response.POST.get('amount')
-            if len(txt) > 2 and int(amt) > 0:
-                cnt.debit_set.create(dbt=txt,dbt_amount=int(amt))
-    # RECONSTRUCT!!!
-    #     elif response.POST.get('credit'):
-    #         txt = response.POST.get('transaction')
-    #         amt = response.POST.get('amount')
-    #         if len(txt) > 2 and int(amt) > 0:
-    #             cnt.credit_set.create(cdt=txt,cdt_amount=int(amt))
- 
-    # return render(response,'journal/index.html',{'cnt':cnt})
+        dtext = response.POST.get('debitTrans')
+        ctext = response.POST.get('creditTrans')
+        amt = response.POST.get('amount')
+
+        try:
+            if len(dtext) > 0 and int(amt) > 0 and len(ctext) > 0:
+                db = cnt.debit_set.create(dbt=dtext,dbt_amount=int(amt))
+                cd = db.credit_set.create(cdt=ctext,cdt_amount=int(amt))
+            else:
+                return render(response,'journal/index.html',{'cnt':cnt})
+        except:
+            return render(response,'journal/index.html',{'cnt':cnt})
+
+    return render(response,'journal/index.html',{'cnt':cnt})
 
 def create(response):
     if response.method == 'POST':

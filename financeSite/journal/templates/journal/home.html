@@ -3,9 +3,10 @@
 {% block title %}Journal Entry{% endblock %}
 
 {% block content %}
+<h1>My Journals</h1>
 <ul>
     {% for x in jl.all %}
-        <li><a href='{% url "journal:index" x.id %}'>{{x.text}}</a></li>
+        <li><h3><a href='{% url "journal:index" x.id %}'>{{x.text}}</a></h3></li>
     {% endfor %}
 </ul>
 {% endblock %}
