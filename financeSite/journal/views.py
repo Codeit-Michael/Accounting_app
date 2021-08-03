@@ -40,3 +40,12 @@ def create(response):
         form = createjournal()
     return render(response,'journal/create.html',{'form':form})
 
+def ledger(response,id):
+    cnt = my_journal.objects.get(id=id)
+    t_accounts = []
+
+    # yet working
+    for item in cnt.debit_set.all():
+        t_accounts.append(item.dbt)
+
+    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts})

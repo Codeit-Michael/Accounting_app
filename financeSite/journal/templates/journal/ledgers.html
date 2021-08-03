@@ -1,0 +1,11 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}T Accounts{% endblock %}
+
+{% block content %}
+<ul>
+    {% for x in t_accounts %}
+        <li>{{x}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
