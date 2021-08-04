@@ -45,22 +45,22 @@ def create(response):
 def ledger(response,id):
     cnt = my_journal.objects.get(id=id)
     t_accounts = {}
-    tb = 0
 
     # yet working
     for item in cnt.debit_set.all():
         # (.first) to get the 1st item and (.last) as opposite
         newItem = item.credit_set.first()
         if item.dbt not in t_accounts:
-            t_accounts[item.dbt] = []
+            t_accounts[item.dbt] = {}
+            t_accounts[item.dbt]['debit'] = []
+            t_accounts[item.dbt]['credit'] = []
+        
         if newItem.cdt not in t_accounts:
-            t_accounts[newItem.cdt] = []
-        t_accounts[item.dbt].append(int(item.dbt_amount))
-        t_accounts[newItem.cdt].append(-int(newItem.cdt_amount))
-    
-    for x in t_accounts['asset']:
-        tb += x
+            t_accounts[newItem.cdt] = {}
+            t_accounts[newItem.cdt]['debit'] = []
+            t_accounts[newItem.cdt]['credit'] = []
 
-        # t_accounts.append(item.dbt)
-
-    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts,'tb':tb})
+        t_accounts[item.dbt]['debit'].append(int(item.dbt_amount))
+        t_accounts[newItem.cdt]['credit'].append(int(newItem.cdt_amount))
+        
+    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts})

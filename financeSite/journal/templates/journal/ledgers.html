@@ -5,9 +5,8 @@
 {% block content %}
 <ul>
     <!-- (key,value) and (.items) to separate the key and calue -->
-    {% for key,value in t_accounts.items %}
-        <li>{{key}}==={{value}}</li>
+    {% for key,value1 in t_accounts.items %}
+        <li>{{key}}==={{value1}}</li>
     {% endfor %}
-    {{tb}}
 </ul>
 {% endblock %}
