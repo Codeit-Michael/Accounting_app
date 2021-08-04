@@ -4,8 +4,10 @@
 
 {% block content %}
 <ul>
-    {% for x in t_accounts %}
-        <li>{{x}}</li>
+    <!-- (key,value) and (.items) to separate the key and calue -->
+    {% for key,value in t_accounts.items %}
+        <li>{{key}}==={{value}}</li>
     {% endfor %}
+    {{tb}}
 </ul>
 {% endblock %}

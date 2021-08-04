@@ -21,6 +21,8 @@ def index(response,id):
             if len(dtext) > 0 and int(amt) > 0 and len(ctext) > 0:
                 db = cnt.debit_set.create(dbt=dtext,dbt_amount=int(amt))
                 cd = db.credit_set.create(cdt=ctext,cdt_amount=int(amt))
+                db.save()
+                cd.save()
             else:
                 return render(response,'journal/index.html',{'cnt':cnt})
         except:
@@ -42,10 +44,23 @@ def create(response):
 
 def ledger(response,id):
     cnt = my_journal.objects.get(id=id)
-    t_accounts = []
+    t_accounts = {}
+    tb = 0
 
     # yet working
     for item in cnt.debit_set.all():
-        t_accounts.append(item.dbt)
+        # (.first) to get the 1st item and (.last) as opposite
+        newItem = item.credit_set.first()
+        if item.dbt not in t_accounts:
+            t_accounts[item.dbt] = []
+        if newItem.cdt not in t_accounts:
+            t_accounts[newItem.cdt] = []
+        t_accounts[item.dbt].append(int(item.dbt_amount))
+        t_accounts[newItem.cdt].append(-int(newItem.cdt_amount))
+    
+    for x in t_accounts['asset']:
+        tb += x
 
-    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts})
+        # t_accounts.append(item.dbt)
+
+    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts,'tb':tb})
