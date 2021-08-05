@@ -53,6 +53,7 @@ def ledger(response,id):
     cnt = my_journal.objects.get(id=id)
     t_accounts = {}
     trial_balance = {}
+    left,right = 0,0
 
     # yet working
     for item in cnt.debit_set.all():
@@ -79,15 +80,17 @@ def ledger(response,id):
 
     for transaction in t_accounts:
         trial_balance[f'{transaction}'] = {}
-        # trial_balance[f'{transaction}'][f'{}']
         if t_accounts[transaction]['total debit'] > t_accounts[transaction]['total credit']:
             amount = t_accounts[transaction]['total debit'] - t_accounts[transaction]['total credit']
             trial_balance[f'{transaction}']['debit'] = amount
+            left += amount
         else:
             amount = t_accounts[transaction]['total credit'] - t_accounts[transaction]['total debit']
             trial_balance[f'{transaction}']['credit'] = amount
+            right += amount
 
-    print(trial_balance)
+    trial_balance['overall debit'] = left
+    trial_balance['overall credit'] = right
 
     return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance})
 
