@@ -3,13 +3,16 @@
 {% block title %}T Accounts{% endblock %}
 
 {% block content %}
+
+<h1>T Accounts for {{cnt.text}}</h1>
+
 <ul>
     <!-- (key,value) and (.items) to separate the key and calue -->
     {% for key,value in t_accounts.items %}
-        <li>{{key}}==={{value}}</li>
+        <li>{{key}}<br>{{value}}</li>
     {% endfor %}
 </ul>
 <br>
 <hr>
-
+{{tb}}
 {% endblock %}

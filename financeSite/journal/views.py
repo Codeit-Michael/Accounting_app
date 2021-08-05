@@ -12,6 +12,8 @@ def home(response):
 def index(response,id):
     cnt = my_journal.objects.get(id=id)
 
+    left,right = 0,0
+
     if response.method == 'POST':
         dtext = response.POST.get('debitTrans')
         ctext = response.POST.get('creditTrans')
@@ -28,7 +30,12 @@ def index(response,id):
         except:
             return render(response,'journal/index.html',{'cnt':cnt})
 
-    return render(response,'journal/index.html',{'cnt':cnt})
+    for x in cnt.debit_set.all():
+        left += x.dbt_amount
+        for y in x.credit_set.all():
+            right += y.cdt_amount
+
+    return render(response,'journal/index.html',{'cnt':cnt,'left':left,'right':right})
 
 def create(response):
     if response.method == 'POST':
@@ -55,25 +62,33 @@ def ledger(response,id):
             t_accounts[item.dbt] = {}
             t_accounts[item.dbt]['debit'] = []
             t_accounts[item.dbt]['credit'] = []
-            trial_balance[item.dbt] = {}
-            trial_balance[item.dbt]['debit'] = 0
-            trial_balance[item.dbt]['credit'] = 0
+            t_accounts[item.dbt]['total debit'] = 0
+            t_accounts[item.dbt]['total credit'] = 0
         
         if newItem.cdt not in t_accounts:
             t_accounts[newItem.cdt] = {}
             t_accounts[newItem.cdt]['debit'] = []
             t_accounts[newItem.cdt]['credit'] = []
-            trial_balance[newItem.cdt] = {}
-            trial_balance[newItem.cdt]['debit'] = 0
-            trial_balance[newItem.cdt]['credit'] = 0
+            t_accounts[newItem.cdt]['total debit'] = 0
+            t_accounts[newItem.cdt]['total credit'] = 0
 
         t_accounts[item.dbt]['debit'].append(item.dbt_amount)
         t_accounts[newItem.cdt]['credit'].append(newItem.cdt_amount)
-        trial_balance[item.dbt]['debit'] += item.dbt_amount
-        trial_balance[newItem.cdt]['credit'] += newItem.cdt_amount
+        t_accounts[item.dbt]['total debit'] += item.dbt_amount
+        t_accounts[newItem.cdt]['total credit'] += newItem.cdt_amount
+
+    for transaction in t_accounts:
+        trial_balance[f'{transaction}'] = {}
+        # trial_balance[f'{transaction}'][f'{}']
+        if t_accounts[transaction]['total debit'] > t_accounts[transaction]['total credit']:
+            amount = t_accounts[transaction]['total debit'] - t_accounts[transaction]['total credit']
+            trial_balance[f'{transaction}']['debit'] = amount
+        else:
+            amount = t_accounts[transaction]['total credit'] - t_accounts[transaction]['total debit']
+            trial_balance[f'{transaction}']['credit'] = amount
 
     print(trial_balance)
 
-    return render(response, 'journal/ledgers.html', {'t_accounts':t_accounts})
+    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance})
 
     """ FIX THE SUM OF DEBITS AND CREDIT FOR EACH TRANSACTION """
