@@ -89,11 +89,12 @@ def ledger(response,id):
             trial_balance[f'{transaction}']['credit'] = amount
             right += amount
     
-    for item in trial_balance:
-        for account in trial_balance[item]:
-            if item not in trans.all():
-                new = trans.create(name=item,accounts=trial_balance[item],amount=trial_balance[item][account]) 
-            # print(trial_balance[item][account])
+    for entry in trial_balance:
+        for account in trial_balance[entry]:
+            if not trans.filter(name=entry):
+                new = trans.create(name=entry,accounts=account,amount=trial_balance[entry][account])
+                new.save()
+            trans.filter(name=entry).update(name=entry,accounts=account,amount=trial_balance[entry][account])
 
     return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,'left':left,'right':right})
 
