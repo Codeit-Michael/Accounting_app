@@ -1,3 +1,4 @@
+from django.db.models.manager import EmptyManager
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import my_journal,debit,credit
@@ -98,4 +99,8 @@ def ledger(response,id):
 
     return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,'left':left,'right':right})
 
-    """ FIX THE SUM OF DEBITS AND CREDIT FOR EACH TRANSACTION """
+def trial_balance(response,id):
+    cnt  = my_journal.objects.get(id=id)
+    tb = cnt.transaction_set
+    
+    return render(response,'journal/trialBalance.html',{'cnt':cnt,'tb':tb})

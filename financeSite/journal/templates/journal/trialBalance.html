@@ -1,0 +1,14 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}Trial Balance{% endblock %}
+
+{% block content %}
+<h1>Trial balance for {{cnt.text}}</h1>
+
+<ul>
+    {% for items in tb.all %}
+        <li>{{items}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
