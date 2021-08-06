@@ -23,3 +23,12 @@ class credit(models.Model):
 
 	def __str__(self):
 		return self.cdt
+
+class transaction(models.Model):
+	list = models.ForeignKey(my_journal,on_delete=models.CASCADE)
+	name = models.CharField(max_length=30)
+	accounts = models.CharField(max_length=30)
+	amount = models.IntegerField()
+
+	def __str__(self):
+		return self.name

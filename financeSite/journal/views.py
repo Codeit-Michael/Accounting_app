@@ -51,11 +51,11 @@ def create(response):
 
 def ledger(response,id):
     cnt = my_journal.objects.get(id=id)
+    trans = cnt.transaction_set
     t_accounts = {}
     trial_balance = {}
     left,right = 0,0
 
-    # yet working
     for item in cnt.debit_set.all():
         # (.first) to get the 1st item and (.last) as opposite
         newItem = item.credit_set.first()
@@ -88,10 +88,13 @@ def ledger(response,id):
             amount = t_accounts[transaction]['total credit'] - t_accounts[transaction]['total debit']
             trial_balance[f'{transaction}']['credit'] = amount
             right += amount
+    
+    for item in trial_balance:
+        for account in trial_balance[item]:
+            if item not in trans.all():
+                new = trans.create(name=item,accounts=trial_balance[item],amount=trial_balance[item][account]) 
+            # print(trial_balance[item][account])
 
-    trial_balance['overall debit'] = left
-    trial_balance['overall credit'] = right
-
-    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance})
+    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,'left':left,'right':right})
 
     """ FIX THE SUM OF DEBITS AND CREDIT FOR EACH TRANSACTION """
