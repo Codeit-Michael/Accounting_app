@@ -61,32 +61,28 @@ def ledger(response,id):
         newItem = item.credit_set.first()
         if item.dbt not in t_accounts:
             t_accounts[item.dbt] = {}
-            t_accounts[item.dbt]['debit'] = []
-            t_accounts[item.dbt]['credit'] = []
-            t_accounts[item.dbt]['total debit'] = 0
-            t_accounts[item.dbt]['total credit'] = 0
+            t_accounts[item.dbt]['debit'] = [0]
+            t_accounts[item.dbt]['credit'] = [0]
         
         if newItem.cdt not in t_accounts:
             t_accounts[newItem.cdt] = {}
-            t_accounts[newItem.cdt]['debit'] = []
-            t_accounts[newItem.cdt]['credit'] = []
-            t_accounts[newItem.cdt]['total debit'] = 0
-            t_accounts[newItem.cdt]['total credit'] = 0
+            t_accounts[newItem.cdt]['debit'] = [0]
+            t_accounts[newItem.cdt]['credit'] = [0]
 
         t_accounts[item.dbt]['debit'].append(item.dbt_amount)
         t_accounts[newItem.cdt]['credit'].append(newItem.cdt_amount)
-        t_accounts[item.dbt]['total debit'] += item.dbt_amount
-        t_accounts[newItem.cdt]['total credit'] += newItem.cdt_amount
+        t_accounts[item.dbt]['debit'][0] += item.dbt_amount
+        t_accounts[newItem.cdt]['credit'][0] += newItem.cdt_amount
 
     for transaction in t_accounts:
         trial_balance[f'{transaction}'] = {}
-        if t_accounts[transaction]['total debit'] > t_accounts[transaction]['total credit']:
-            amount = t_accounts[transaction]['total debit'] - t_accounts[transaction]['total credit']
+        if t_accounts[transaction]['debit'][0] > t_accounts[transaction]['credit'][0]:
+            amount = t_accounts[transaction]['debit'][0] - t_accounts[transaction]['credit'][0]
             trial_balance[f'{transaction}']['debit'] = amount
         else:
-            amount = t_accounts[transaction]['total credit'] - t_accounts[transaction]['total debit']
+            amount = t_accounts[transaction]['credit'][0] - t_accounts[transaction]['debit'][0]
             trial_balance[f'{transaction}']['credit'] = amount
-    
+
     for entry in trial_balance:
         for account in trial_balance[entry]:
             if not trans.filter(name=entry):
