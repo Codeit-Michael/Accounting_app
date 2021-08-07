@@ -6,16 +6,19 @@
 
 <h1>T Accounts for {{cnt.text}}</h1>
 
+<table style="width: 100%;">
+    
+</table>
+
 <ul>
     <!-- (key,value) and (.items) to separate the key and calue -->
     {% for key,value in t_accounts.items %}
-        <li>{{key}}<br>{{value}}</li>
+        <li>{{key}}{{value}}</li>
+        <ul>
+            {% for d in value %}
+                <li>{{d}}</li>
+            {% endfor %}
+        </ul>
     {% endfor %}
 </ul>
-<br>
-<hr>
-<h1>Trial Balance for {{cnt.text}}</h1>
-{{tb}}
-<br><br>
-<label>total:_________{{left}}__________{{right}}</label>
 {% endblock %}

@@ -3,17 +3,37 @@
 
 {% block content %}
 <h1>{{cnt.text}}</h1>
+
+    <table style="width: 100%;">
+        <tr>
+            <td><b>Transaction</b></td>
+            <td><b>Debit</b></td>
+            <td><b>Credit</b></td>
+        </tr>
+        {% for x in cnt.debit_set.all %}
+            <tr>
+                <td>{{x.dbt}}</td>
+                <td>{{x.dbt_amount}}</td>
+                <td> </td>
+            </tr>
+
+            {% for y in x.credit_set.all %}
+                <tr>
+                    <td>----{{y.cdt}}</td>
+                    <td> </td>
+                    <td>{{y.cdt_amount}}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        <tr style="font-weight: bold;">
+            <td>Total</td>
+            <td>{{left}}</td>
+            <td>{{right}}</td>
+        </tr>
+    </table>
+
 <form method='post' action='#'>
     {% csrf_token %}
-
-    {% for x in cnt.debit_set.all %}
-    <label>{{x.dbt}}...........{{x.dbt_amount}}</label><br>
-        {% for y in x.credit_set.all %}
-            <label>__________{{y.cdt}}...........{{y.cdt_amount}}</label><br>
-        {% endfor %}
-    {% endfor %}
-    <br>
-    <label>total:_______{{left}}__________{{right}}</label>
 
     <br><hr>
     <label for="debitTrans">Debit Transaction:</label>

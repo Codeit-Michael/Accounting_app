@@ -29,6 +29,6 @@ class transaction(models.Model):
 	name = models.CharField(max_length=30)
 	accounts = models.CharField(max_length=30)
 	amount = models.IntegerField()
-
+	
 	def __str__(self):
 		return self.name

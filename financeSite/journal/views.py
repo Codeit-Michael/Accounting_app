@@ -55,7 +55,6 @@ def ledger(response,id):
     trans = cnt.transaction_set
     t_accounts = {}
     trial_balance = {}
-    left,right = 0,0
 
     for item in cnt.debit_set.all():
         # (.first) to get the 1st item and (.last) as opposite
@@ -84,11 +83,9 @@ def ledger(response,id):
         if t_accounts[transaction]['total debit'] > t_accounts[transaction]['total credit']:
             amount = t_accounts[transaction]['total debit'] - t_accounts[transaction]['total credit']
             trial_balance[f'{transaction}']['debit'] = amount
-            left += amount
         else:
             amount = t_accounts[transaction]['total credit'] - t_accounts[transaction]['total debit']
             trial_balance[f'{transaction}']['credit'] = amount
-            right += amount
     
     for entry in trial_balance:
         for account in trial_balance[entry]:
@@ -97,10 +94,19 @@ def ledger(response,id):
                 new.save()
             trans.filter(name=entry).update(name=entry,accounts=account,amount=trial_balance[entry][account])
 
-    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,'left':left,'right':right})
+    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,})
 
 def trial_balance(response,id):
     cnt  = my_journal.objects.get(id=id)
     tb = cnt.transaction_set
-    
-    return render(response,'journal/trialBalance.html',{'cnt':cnt,'tb':tb})
+    left,right = 0,0
+
+    for item in tb.all():
+        if item.accounts == 'debit':
+            left += item.amount
+        else:
+            right += item.amount
+
+    print(left,right)
+
+    return render(response,'journal/trialBalance.html',{'cnt':cnt,'tb':tb,'left':left,'right':right})
