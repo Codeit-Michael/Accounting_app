@@ -37,6 +37,39 @@
 
 	}
 
+        #body {
+            display: flex;
+            justify-content: center;
+        }
+
+        #table-title {
+            text-align: center;
+        }
+
+        #debit {
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        #credit {
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .debit-data {
+            border-right: 1px solid black;
+        }
+
+        .credit-data {
+            border-left: 1px solid black;
+        }
+
 	</style>
 
 	<title>{% block title %}{% endblock %}</title>

@@ -79,9 +79,15 @@ def ledger(response,id):
         if t_accounts[transaction]['debit'][0] > t_accounts[transaction]['credit'][0]:
             amount = t_accounts[transaction]['debit'][0] - t_accounts[transaction]['credit'][0]
             trial_balance[f'{transaction}']['debit'] = amount
+            t_accounts[transaction]['total'] = (f'Debit: {amount}')
+            t_accounts[transaction]['debit'].remove(t_accounts[transaction]['debit'][0])
+            t_accounts[transaction]['credit'].remove(t_accounts[transaction]['credit'][0])
         else:
             amount = t_accounts[transaction]['credit'][0] - t_accounts[transaction]['debit'][0]
             trial_balance[f'{transaction}']['credit'] = amount
+            t_accounts[transaction]['total'] = (f'Credit: {amount}')
+            t_accounts[transaction]['debit'].remove(t_accounts[transaction]['debit'][0])
+            t_accounts[transaction]['credit'].remove(t_accounts[transaction]['credit'][0])
 
     for entry in trial_balance:
         for account in trial_balance[entry]:
@@ -89,8 +95,8 @@ def ledger(response,id):
                 new = trans.create(name=entry,accounts=account,amount=trial_balance[entry][account])
                 new.save()
             trans.filter(name=entry).update(name=entry,accounts=account,amount=trial_balance[entry][account])
-
-    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,})
+    
+    return render(response, 'journal/ledger.html', {'cnt':cnt,'t_accounts':t_accounts,'tb':trial_balance,'trans':trans})
 
 def trial_balance(response,id):
     cnt  = my_journal.objects.get(id=id)
