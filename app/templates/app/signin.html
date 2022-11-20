@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign in</title>
+</head>
+<body>
+	<!-- identify if message success or error -->
+	{% for message in messages %}
+		<p style="color: green;">{{message}}</p>
+		{% if message is success %}
+			<p>True</p>
+		{% else %}
+			<p>False</p>
+		{% endif %}
+	{% endfor %}
+	
+	<form method="post">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button type="submit" name="signin">Sign in</button>
+	</form>
+
+	<a href="{% url 'signup' %}">Create Account here.</a>
+</body>
+</html>

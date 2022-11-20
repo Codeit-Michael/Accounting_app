@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up</title>
+</head>
+<body>
+	{% for message in messages %}
+		<p style="color: red;">{{message}}</p>
+	{% endfor %}
+
+	<form method="post">
+		{% csrf_token %}
+		{% for field in form %}
+			{{field.label}}{{field}}<br>
+		{% endfor %}
+		<button type="submit" name="signup">Sign Up</button>
+	</form>
+
+	<a href="{% url 'login' %}">Login Account here.</a>
+</body>
+</html>
