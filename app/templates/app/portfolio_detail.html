@@ -7,26 +7,39 @@
 <body>
 
 	<h1>{{pfl.name}}'s Portfolio</h1>
-	<form method="post" action="">
-		{% csrf_token %}
-		{% for left_trans in pfl.debit_set.all %}
-			{% for right_trans in left_trans.credit_set.all %}
-				<p>{{left_trans.dbt}},,{{left_trans.amount}}/////{{right_trans.cdt}},,{{right_trans.amount}}</p>
+
+	{% journal_table pfl as jt %}
+	<table style='background-color:grey' width='400'>
+		<thead style='background-color:yellow'>
+			<tr>
+				<td>Date</td>
+				<td>Transaction</td>
+				<td>Debit</td>
+				<td>Credit</td>
+			</tr>
+		</thead>
+		<tbody style='background-color:lightgrey'>
+			{% for x in jt.tbl %}
+				<tr>
+					{% for y in x %}
+							<td>{{y}}</td>
+					{% endfor %}
+				</tr>
 			{% endfor %}
-			<button type="submit" name="delete_this" value={{left_trans.id}}>DELETE</button><br>
-		{% endfor %}
-	</form>
+			<tr style="font-weight: bold;">
+				<td></td>
+				<td>Total:</td>
+				<td>{{jt.dt}}</td>
+				<td>{{jt.ct}}</td>
+			<tr>
+		</tbody>
+	</table>
 
-	{% total_counter as fu %}
-	<ul>
-	{% for x in fu %}
-		<li>{{x}}</li>
-	{% endfor %}
-	</ul>
+	<br>
 
 	<form method="post" action="">
 		{% csrf_token %}
-		<select name="dbt" required>
+		<select name="dbt">
 			<option disabled="" selected="" value="">Select Debit Transaction type</option>
 			<option value="asset">Asset</option>
 			<option value="liability">Liability</option>
@@ -38,7 +51,7 @@
 		</select>
         <input type="number" name="dbt-amt" placeholder="Enter Debit amount...">
 		<br>
-		<select name="cdt" required>
+		<select name="cdt">
 			<option disabled="" selected="" value="">Select Credit Transaction type</option>
 			<option value="asset">Asset</option>
 			<option value="liability">Liability</option>

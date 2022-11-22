@@ -22,8 +22,9 @@
 	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
 
 	<ul>
-		{% for pfl in portfolio.all %}
-			<li><h3 class="listItem"><a href="{% url 'pfldetail' pfl.id %}">{{pfl.name}}</a></h3></li>
+		{% for pfl in portfolio.portfolio_set.all %}
+			<li><h3 class="listItem"><a href="{% url 'pfldetail' pfl.id %}">{{pfl.name}}</a></h3>
+				<button onclick="window.location.href='/pfl-delete/pk={{pfl.id}}' ">DELETE</button></li>
 		{% endfor %}
 	</ul>
 

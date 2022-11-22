@@ -47,14 +47,10 @@ class PortfolioList(LoginRequiredMixin,View):
 		context = {'portfolio':account}
 		return render(request,'app/home.html',context)
 
-	def post(self,request):
-		pass
-		# if request.POST.get('delete_this'):
-		# 	trans_index = request.POST.get('delete_this')
-		# 	pfl.debit_set.get(id=trans_index).delete()
 
-		# return super(PortfolioDetail, self).dispatch(request,*args,**kwargs)
-
+class PortfolioDelete(LoginRequiredMixin,DeleteView):
+	model = Portfolio
+	success_url = reverse_lazy('pfllist')
 
 
 class PortfolioCreate(LoginRequiredMixin,View):
@@ -87,11 +83,15 @@ class PortfolioDetail(LoginRequiredMixin,DetailView):
 		date = request.POST.get('trans-date')
 		pfl = self.model.objects.get(id=pk)
 		if self.request.POST.get('save'):
-			if len(dbt_trans) and len(dbt_amt) and len(cdt_trans) and len(cdt_amt) > 0:
-				dbt_whole_trans = pfl.debit_set.create(dbt=dbt_trans, amount=dbt_amt, date=trans_date)
-				cdt_whole_trans = pfl.credit_set.create(cdt=cdt_trans, amount=cdt_amt, date=trans_date)
-				dbt_whole_trans.save()
-				cdt_whole_trans.save()
+			try:
+				if dbt_trans and dbt_amt and cdt_trans and cdt_amt != None:
+					dbt_whole_trans = pfl.debit_set.create(dbt=dbt_trans, amount=dbt_amt, date=trans_date)
+					cdt_whole_trans = pfl.credit_set.create(cdt=cdt_trans, amount=cdt_amt, date=trans_date)
+					dbt_whole_trans.save()
+					cdt_whole_trans.save()
+			except:
+				return super(PortfolioDetail, self).dispatch(request,*args,**kwargs)
+
 
 		elif request.POST.get('delete_this'):
 			trans_index = request.POST.get('delete_this')

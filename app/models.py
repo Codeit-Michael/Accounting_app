@@ -14,7 +14,7 @@ class Debit(models.Model):
 	journal_list = models.ForeignKey(Portfolio,on_delete=models.CASCADE)
 	dbt = models.CharField(max_length=30)
 	amount = models.IntegerField()
-	date = models.DateField(null=True)
+	date = models.DateField()
 
 	def __str__(self):
 		return self.dbt
@@ -23,7 +23,7 @@ class Credit(models.Model):
 	contra_trans = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
 	cdt = models.CharField(max_length=30)
 	amount = models.IntegerField()
-	date = models.DateField(null=True)
+	date = models.DateField()
 
 	def __str__(self):
 		return self.cdt
