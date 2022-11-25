@@ -1,12 +1,25 @@
+{% load app_extras %}
 <!DOCTYPE hmtl>
 <html>
     <head>
-        <title>Bobo mo</title>
+        <title>Trial Balance</title>
     </head>
     <body>
         <h1>{{name}}'s Trial Balance</h1>
-        {% for item in tb %}
-            <p>{{item}}</p>
-        {% endfor %}
+
+        <table>
+            <tr>
+                <td>Transaction</td>
+                <td>Debit</td>
+                <td>Credit</td>
+            </tr>
+            {% for trans in tb %}
+                <tr>
+                    {% for item in trans %}
+                        <td>{{item}}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

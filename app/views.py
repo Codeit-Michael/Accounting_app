@@ -102,14 +102,26 @@ class PortfolioDelete(LoginRequiredMixin,DeleteView):
 
 def trial_balance_computer(pk):
 	pfl = Portfolio.objects.get(id=pk)
+	tb_total = {}
 	tb_table = []
-	for x in pfl.transaction_set.all():
-		tb_table.append(x)
-	return tb_table
+	for trans in pfl.transaction_set.all():
+		if trans.trans_name not in tb_total:
+			tb_total[trans.trans_name] = 0
+		if trans.trans_type == 'dbt':
+			tb_total[trans.trans_name] += trans.amount
+		else:
+			tb_total[trans.trans_name] -= trans.amount
+	for x in tb_total:
+		if tb_total[x] > 0:
+			tb_table.append((x, tb_total[x], ''))
+		elif tb_total[x] < 0:
+			tb_table.append((x, '', tb_total[x]))
+	return pfl.name, tb_table
 
 
 class TrialBalance(LoginRequiredMixin, View):
     
     def get(self, request, pk):
-        context = {'tb':trial_balance_computer(pk)}
+        tb = trial_balance_computer(pk)
+        context = {'name':tb[0], 'tb':tb[1]}
         return render(request, 'app/trialbalance.html', context)
