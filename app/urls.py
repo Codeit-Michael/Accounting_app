@@ -1,14 +1,15 @@
 from django.urls import path
-from .views import UserSignup, UserLogin, PortfolioCreate, PortfolioList, PortfolioDetail, PortfolioDelete#,  PersonUpdate
+from .views import UserSignup, UserLogin, PortfolioCreate, PortfolioList, PortfolioJournal, PortfolioDelete, TrialBalance
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
 	path('signup/', UserSignup.as_view(), name='signup'),
 	path('login/', UserLogin.as_view(), name='login'),
 	path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
-	path('pfl-create/', PortfolioCreate.as_view(), name='pflcreate'),
-	path('', PortfolioList.as_view(), name='pfllist'),
-	path('pfl-detail/pk=<int:pk>', PortfolioDetail.as_view(), name='pfldetail'),
-# 	path('person-update/pk=<int:pk>', PersonUpdate.as_view(), name='personupdate'),
-	path('pfl-delete/pk=<int:pk>', PortfolioDelete.as_view(), name='pfldelete'),
+	path('pfl-create/', PortfolioCreate.as_view(), name='pfl-create'),
+	path('', PortfolioList.as_view(), name='pfl-list'),
+	path('pfl-journal/pk=<int:pk>', PortfolioJournal.as_view(), name='pfl-detail'),
+	# path('ledger/pk=<int:pk>', Ledger.as_view(), name='pfl-ledger'),
+	path('pfl-delete/pk=<int:pk>', PortfolioDelete.as_view(), name='pfl-delete'),
+	path('pfl-tb/pk=<int:pk>', TrialBalance.as_view(), name='trial-balance')
 ]

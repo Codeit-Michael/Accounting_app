@@ -28,7 +28,7 @@ class UserSignup(FormView):
 
 	def get(self, *args, **kwargs):
 		if self.request.user.is_authenticated:
-			return redirect('pfllist')
+			return redirect('pfl-list')
 		return super(UserSignup, self).get(*args, **kwargs)
 
 
@@ -38,7 +38,7 @@ class UserLogin(LoginView):
 	redirect_authenticated_user = True
 
 	def get_success_url(self):
-		return reverse_lazy('pfllist')
+		return reverse_lazy('pfl-list')
 
 
 class PortfolioList(LoginRequiredMixin,View):
@@ -48,13 +48,7 @@ class PortfolioList(LoginRequiredMixin,View):
 		return render(request,'app/home.html',context)
 
 
-class PortfolioDelete(LoginRequiredMixin,DeleteView):
-	model = Portfolio
-	success_url = reverse_lazy('pfllist')
-
-
 class PortfolioCreate(LoginRequiredMixin,View):
-
 	def get(self,request):
 		return render(request,'app/portfolio_create_form.html')
 
@@ -63,39 +57,59 @@ class PortfolioCreate(LoginRequiredMixin,View):
 		pfl_name = request.POST.get('portfolio_name')
 		user.portfolio_set.create(name=pfl_name)
 		my_object = user.portfolio_set.get(name=pfl_name).id
-		return redirect('pfldetail', my_object)
+		return redirect('pfl-detail', my_object)
 
 
-class PortfolioDetail(LoginRequiredMixin,DetailView):
+class PortfolioJournal(LoginRequiredMixin,DetailView):
 	model = Portfolio
+	template_name = 'app/journal.html'
 	context_object_name = 'pfl'
 
 	def get(self,*args,**kwargs):
-		return super(PortfolioDetail, self).get(*args,**kwargs)
+		return super(PortfolioJournal, self).get(*args,**kwargs)
 
 	def post(self,*args,**kwargs):
-		return super(PortfolioDetail, self).get(*args,**kwargs)
+		return super(PortfolioJournal, self).get(*args,**kwargs)
 
 	def dispatch(self,request,pk,*args,**kwargs):
 		dbt_trans, dbt_amt = request.POST.get('dbt'), request.POST.get('dbt-amt')
 		cdt_trans, cdt_amt = request.POST.get('cdt'), request.POST.get('cdt-amt')
-		trans_date = request.POST.get('trans_date')
-		date = request.POST.get('trans-date')
+		trans_date = request.POST.get('trans-date')
 		pfl = self.model.objects.get(id=pk)
 		if self.request.POST.get('save'):
 			try:
+				print(f'{dbt_trans}{dbt_amt}///{cdt_trans}{cdt_amt}...{trans_date}')
 				if dbt_trans and dbt_amt and cdt_trans and cdt_amt != None:
-					dbt_whole_trans = pfl.debit_set.create(dbt=dbt_trans, amount=dbt_amt, date=trans_date)
-					cdt_whole_trans = pfl.credit_set.create(cdt=cdt_trans, amount=cdt_amt, date=trans_date)
+					dbt_whole_trans = pfl.transaction_set.create(trans_name=dbt_trans, trans_type='dbt', amount=dbt_amt, date=trans_date)
+					cdt_whole_trans = pfl.transaction_set.create(trans_name=cdt_trans, trans_type='cdt', amount=cdt_amt, date=trans_date)
 					dbt_whole_trans.save()
 					cdt_whole_trans.save()
+					print(True)
 			except:
-				return super(PortfolioDetail, self).dispatch(request,*args,**kwargs)
+				return super(PortfolioJournal, self).dispatch(request,*args,**kwargs)
+
+		# elif request.POST.get('delete_this'):
+		# 	trans_index = request.POST.get('delete_this')
+		# 	pfl.debit_set.get(id=trans_index).delete()
+
+		return super(PortfolioJournal, self).dispatch(request,*args,**kwargs)
 
 
-		elif request.POST.get('delete_this'):
-			trans_index = request.POST.get('delete_this')
-			pfl.debit_set.get(id=trans_index).delete()
+class PortfolioDelete(LoginRequiredMixin,DeleteView):
+	model = Portfolio
+	success_url = reverse_lazy('pfl-list')
 
-		return super(PortfolioDetail, self).dispatch(request,*args,**kwargs)
 
+def trial_balance_computer(pk):
+	pfl = Portfolio.objects.get(id=pk)
+	tb_table = []
+	for x in pfl.transaction_set.all():
+		tb_table.append(x)
+	return tb_table
+
+
+class TrialBalance(LoginRequiredMixin, View):
+    
+    def get(self, request, pk):
+        context = {'tb':trial_balance_computer(pk)}
+        return render(request, 'app/trialbalance.html', context)

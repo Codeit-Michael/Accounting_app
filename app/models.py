@@ -10,21 +10,12 @@ class Portfolio(models.Model):
 	def __str__(self):
 		return self.name
 
-class Debit(models.Model):
+class Transaction(models.Model):
 	journal_list = models.ForeignKey(Portfolio,on_delete=models.CASCADE)
-	dbt = models.CharField(max_length=30)
+	trans_name = models.CharField(max_length=30)
+	trans_type = models.CharField(max_length=3)
 	amount = models.IntegerField()
 	date = models.DateField()
 
 	def __str__(self):
-		return self.dbt
-
-class Credit(models.Model):
-	contra_trans = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
-	cdt = models.CharField(max_length=30)
-	amount = models.IntegerField()
-	date = models.DateField()
-
-	def __str__(self):
-		return self.cdt
-
+		return self.trans_name

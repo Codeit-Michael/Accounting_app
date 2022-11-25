@@ -19,10 +19,10 @@
 			</tr>
 		</thead>
 		<tbody style='background-color:lightgrey'>
-			{% for x in jt.tbl %}
+			{% for transaction in jt.tbl %}
 				<tr>
-					{% for y in x %}
-							<td>{{y}}</td>
+					{% for items in transaction %}
+						<td>{{items}}</td>
 					{% endfor %}
 				</tr>
 			{% endfor %}
@@ -67,5 +67,7 @@
         <br>
 		<button type="submit" name="save" value="save">Save</button>
 	</form>
+
+	<a href="{% url "trial-balance" pfl.id %}">T accounts and Trial Balance</a>
 </body>
 </html>
