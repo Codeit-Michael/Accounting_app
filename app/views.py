@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from json import dumps
 from .models import Portfolio
 
 from django.views.generic import View
@@ -78,7 +79,6 @@ class PortfolioJournal(LoginRequiredMixin,DetailView):
 		pfl = self.model.objects.get(id=pk)
 		if self.request.POST.get('save'):
 			try:
-				print(f'{dbt_trans}{dbt_amt}///{cdt_trans}{cdt_amt}...{trans_date}')
 				if dbt_trans and dbt_amt and cdt_trans and cdt_amt != None:
 					dbt_whole_trans = pfl.transaction_set.create(trans_name=dbt_trans, trans_type='dbt', amount=dbt_amt, date=trans_date)
 					cdt_whole_trans = pfl.transaction_set.create(trans_name=cdt_trans, trans_type='cdt', amount=cdt_amt, date=trans_date)
@@ -119,9 +119,24 @@ def trial_balance_computer(pk):
 	return pfl.name, tb_table
 
 
+def t_accounts(pk):
+	pfl = Portfolio.objects.get(id=pk)
+	ledger = {}
+	for trans in pfl.transaction_set.all():
+		if trans.trans_name not in ledger:
+			ledger[trans.trans_name] = []
+		if trans.trans_type == 'dbt':
+			ledger[trans.trans_name].append(trans.amount)
+		else:
+			ledger[trans.trans_name].append(-trans.amount)
+	return ledger
+		
+
 class TrialBalance(LoginRequiredMixin, View):
     
     def get(self, request, pk):
         tb = trial_balance_computer(pk)
-        context = {'name':tb[0], 'tb':tb[1]}
+        ta = t_accounts(pk)
+        ta_JSON = dumps(ta)
+        context = {'name':tb[0], 'tb':tb[1], 'ta':ta_JSON}
         return render(request, 'app/trialbalance.html', context)

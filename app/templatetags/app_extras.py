@@ -4,8 +4,7 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def journal_table(context, pfl):
-    request = context.get('request')
-    
+    request = context.get('request')    
     trans_table = []
     debit_total, credit_total = 0, 0
     for trans in pfl.transaction_set.all():

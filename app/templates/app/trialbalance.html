@@ -21,5 +21,41 @@
                 </tr>
             {% endfor %}
         </table>
+
+        <br><br><br>
+
+        <div id="trans-table"></div>
+        <h2>LEAST FINAL SOLUTION: HAVE 2 TUPLE AND MAP EACH + AND - ON PUTTING 'EM</H2>
+
+        <script>
+                var tAccount = JSON.parse("{{ta|escapejs}}");
+                dataNode = document.getElementById('trans-table');
+                for(const trans in tAccount){
+                    const transTable = document.createElement("table");
+                    const transCaption = document.createElement("caption");
+                    const transRow = document.createElement("tr");
+                    const transDb = document.createElement("td");
+                    const transCd = document.createElement("td");
+                    transCaption.innerText = trans;
+                    transDb.innerText = 'DEBIT';
+                    transCd.innerText = 'CREDIT';
+                    transRow.appendChild(transDb);
+                    transRow.appendChild(transCd);
+                    transTable.appendChild(transCaption);
+                    transTable.appendChild(transRow);
+
+                    tAccount[trans].forEach(data => {
+                        const tableRow = document.createElement("tr");
+                        const tableData = document.createElement("td");
+                        tableData.innerText = data;
+                        tableRow.appendChild(tableData);
+                        transTable.append(tableData);
+                    })
+
+                    dataNode.appendChild(transTable);
+                    spc = document.createElement("br");
+                    dataNode.appendChild(spc);
+                }
+        </script>
     </body>
 </html>
