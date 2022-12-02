@@ -4,12 +4,11 @@ from .models import Portfolio
 
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import DeleteView, FormView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
@@ -20,6 +19,7 @@ class UserSignup(FormView):
 	form_class = UserCreationForm
 	redirect_authenticated_user = True
 	success_url = reverse_lazy('login')
+
 
 	def form_valid(self, form):
 		user = form.save()
