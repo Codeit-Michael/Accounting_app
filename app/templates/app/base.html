@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'app/index.css' %}">
+</head>
+<body>
+
+	<div class="sidenav">
+        {% block sidenav %}{% endblock %}
+	</div>
+
+
+    {% if request.user.is_authenticated %}
+        <h1 class="username">{{request.user}}</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/552/552721.png" style="position: fixed; right: 19px; top: 34px; height:6%;width:4%;">
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</body>

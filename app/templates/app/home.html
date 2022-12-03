@@ -1,33 +1,20 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>hello</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'app/home.css' %}">
-</head>
-<body>
+{% extends "app/base.html" %}
 
-	<div class="sidenav">
-		<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
-		<button class="logout" onclick="window.location.href='/logout'">Log out</button>
-	</div>
+{% block title %}hello{% endblock %}
 
-	<div class="main">
-		{% if request.user.is_authenticated %}
-			<h1 class="username">{{request.user}}</h1>
-			<img src="https://cdn-icons-png.flaticon.com/512/552/552721.png" style="position: fixed; right: 19px; top: 34px; height:6%;width:4%;">
-		{% else %}
-			<a href="{% url 'login' %}">Login</a>
-		{% endif %}
+{% block sidenav %}
+	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
+	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
+{% endblock %}
 
-		<h2> MY PORTFOLIO LIST</h2>
-		
-
-		<ul>
-			{% for pfl in portfolio.portfolio_set.all %}
-				<li><h3 class="list-item"><a href="{% url 'pfl-detail' pfl.id %}">{{pfl.name}}</a></h3>
-					<button onclick="window.location.href='/pfl-delete/pk={{pfl.id}}' ">DELETE</button></li>
-			{% endfor %}
-		</ul>
-	</div>
-</body>
+{% block content %}
+	<h2> MY PORTFOLIO LIST</h2>
+	<table class="center">
+		{% for pfl in portfolio.portfolio_set.all %}
+			<tr>
+				<td><h3><a href="{% url 'pfl-detail' pfl.id %}">{{pfl.name}}</a><h3></td>
+				<td><button class="delete" onclick="window.location.href='/pfl-delete/pk={{pfl.id}}' ">Delete</button></td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

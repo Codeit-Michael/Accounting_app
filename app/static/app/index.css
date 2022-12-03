@@ -1,31 +1,22 @@
 body {
-    width: 100%;
-    height: 100vh;
-    display: flex;
     margin: 0;
     padding: 0;
     gap: 50px;
     background-color: #005c6b;
-    color: #fcc861;
+
     font-family: Tahoma;
     font-size: 16px;
 }
 
-.main{
-    margin-left: 160px;
-    padding: 0px 10px;
-
-}
-
-.list-item {
-    font-style: italic;
-    font-weight: bold;
+h2 {
+    text-align: center;
+    color: #fcc861;
 }
 
 .sidenav {
     width: 140px;
     height: 29vh;
-    position: relative;
+    position: fixed;
     background-color: #111;
     overflow-x: hidden;
     padding-top: 20px;
@@ -48,7 +39,6 @@ body {
     max-width: 300px;
     background-color: #9affff;
     color: #004291;
-    border-color: white;
     border-radius: 6px;
     border: transparent;
 }
@@ -71,7 +61,44 @@ body {
 }
 
 .username {
+    color:blanchedalmond;
     text-align: right;
-    margin-right: -10.7em;
+    margin-right: 2em;
     margin-top: 1em;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center td {
+    border-top: 2px solid #ff63a0;
+    color: white;
+    width: 250px;
+    min-height: 200px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.delete {
+    padding: 5px;
+    font-size: 1.1rem;
+    color: #8b7272;
+    width: 50%;
+    min-width: 45px;
+    max-width: 300px;
+    background-color: #9affff;
+    color: #004291;
+    border-radius: 18px;
+    border: transparent;
+}
+
+.delete:hover {
+    background-color: crimson;
+    color: #ffe600;
+}
+
+a {
+    color: antiquewhite;
 }
