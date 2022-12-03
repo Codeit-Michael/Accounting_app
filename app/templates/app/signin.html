@@ -1,20 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Sign in</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'app/account-auth.css' %}">
 </head>
 <body>
-	<!-- identify if message success or error -->
+
+	<h1>Log In</h1>
+
 	{% for message in messages %}
-		<p style="color: green;">{{message}}</p>
+		<p>{{message}}</p>
 	{% endfor %}
 	
 	<form method="post">
 		{% csrf_token %}
-		{{form.as_p}}
+		<fieldset>
+			{{form.as_p}}
+		</fieldset>
 		<button type="submit" name="signin">Sign in</button>
+		<button onclick="location.href = '/signup'" class="nxt-pg">Create your Account</button>
 	</form>
-
-	<a href="{% url 'signup' %}">Create Account here.</a>
 </body>
 </html>

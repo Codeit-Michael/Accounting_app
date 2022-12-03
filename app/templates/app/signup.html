@@ -3,14 +3,14 @@
 <html>
 <head>
 	<title>Sign Up</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'app/signup.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'app/account-auth.css' %}">
 </head>
 <body>
 
 	<h1>Sign Up</h1> 
 
 	{% for message in messages %}
-		<p style="color: red;">{{message}}</p>
+		<p>{{message}}</p>
 	{% endfor %}
 
 	<form method="post">

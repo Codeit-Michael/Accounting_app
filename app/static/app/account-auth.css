@@ -26,7 +26,7 @@ fieldset {
     border: transparent;
 }
 
-button, input[type="button"] {
+button {
     display: block;
     width: 40%;
     margin: 1em auto;
