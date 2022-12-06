@@ -1,16 +1,12 @@
 body {
-    margin: 0;
-    padding: 0;
-    gap: 50px;
     background-color: #005c6b;
-
     font-family: Tahoma;
     font-size: 16px;
 }
 
 h2 {
     text-align: center;
-    color: #fcc861;
+    color: #ffcc66;
 }
 
 .sidenav {
@@ -63,8 +59,9 @@ h2 {
 .username {
     color:blanchedalmond;
     text-align: right;
-    margin-right: 2em;
-    margin-top: 1em;
+    position: fixed;
+    right: 2em;
+    top: 6px;
 }
 
 .center {
@@ -73,7 +70,7 @@ h2 {
 }
 
 .center td {
-    border-top: 2px solid #ff63a0;
+    border-top: 2px solid #a37687;
     color: white;
     width: 250px;
     min-height: 200px;
@@ -101,4 +98,38 @@ h2 {
 
 a {
     color: antiquewhite;
+}
+
+.opt {
+    margin: auto;
+    padding: 0;
+    color: azure;
+    text-align: center;
+    width: 60%;
+    font-size: x-large;
+}
+
+.opt input[type="textbox"] {
+    font-size: large;
+    height: 27px;
+    width: 297px;
+    background-color: #034650;
+    color: azure;
+    border-color: transparent;
+    border-radius: 9px;
+}
+
+.opt input[type="submit"] {
+    background-color: #74cf18;
+    color: #ffffff;
+    height: 47px;
+    width: 127px;
+    font-size: large;
+    border: transparent;
+    border-radius: 12px;
+}
+
+.opt input[type="submit"]:hover {
+    background-color: #5f912e;
+    color: #d3d3d3;
 }

@@ -1,12 +1,19 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Delete Confirmation</title>
-	</head>
-	<body>
-		<form method="post">{% csrf_token %}
-			<p>Are you sure you want to delete "{{object}}"?</p>
-			<input type="submit" value="Confirm">
-		</form>
-	</body>
-</html>
+{% extends 'app/base.html' %} 
+
+{% block title %}Delete Confirmation{% endblock %}
+
+{% block sidenav %}
+	<button onclick="window.location.href='/'">Home</button>
+	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
+{% endblock %}
+
+{% block content %}
+	<br><br>
+	<h2>Delete Confirmation</h2>
+	<br><br>
+	<form class="opt" method="post">
+		{% csrf_token %}
+		<p>Are you sure you want to delete "{{object}}"?</p>
+		<input type="submit" value="Confirm">
+	</form>
+{% endblock %}

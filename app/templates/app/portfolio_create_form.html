@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Person Create</title>
-</head>
-<body>
-	<form method="post" action="">
+{% extends "app/base.html" %}
+
+{% block title %}Person Create{% endblock %}
+
+{% block sidenav %}
+	<button onclick="window.location.href='/'">Home</button>
+	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
+{% endblock %}
+
+{% block content %}
+	<br>
+	<h2>Create New Portfolio</h2>
+	<br>
+	<form class="opt" method="post" action="">
 		{% csrf_token %}
-		<input type="textbox" name="portfolio_name">
-		<button type="submit" name="save">save</button>
+		<input type="textbox" name="portfolio_name" placeholder="Portfolio Name">
+		<input type="submit" value="Create">
 	</form>
-	<p>PersonCreate's template</p>
-</body>
-</html>
+{% endblock %}
