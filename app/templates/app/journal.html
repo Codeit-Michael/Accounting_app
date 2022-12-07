@@ -5,17 +5,18 @@
 
 {% block sidenav %}
 	<button onclick="window.location.href='/'">Home</button>
+	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
 	<button onclick="window.location.href='/pfl-tb/pk={{pfl.id}}'">Trial Balance</button>
 	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
 {% endblock %}
 
 {% block content %}
-	<br><h2>{{pfl.name}}'s Portfolio</h2><br>
+	<br><br><h2>{{pfl.name}}'s Portfolio</h2><br>
 
 	{% journal_table pfl as jt %}
 	<table class="opt">
 		<thead>
-			<tr>
+			<tr class="tb-shade">
 				<td>Date</td>
 				<td>Transaction</td>
 				<td>Debit</td>
@@ -30,7 +31,7 @@
 					{% endfor %}
 				</tr>
 			{% endfor %}
-			<tr style="font-weight: bold;">
+			<tr class="tb-shade">
 				<td></td>
 				<td>Total:</td>
 				<td>{{jt.dt}}</td>

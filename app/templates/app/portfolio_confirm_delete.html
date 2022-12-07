@@ -4,11 +4,12 @@
 
 {% block sidenav %}
 	<button onclick="window.location.href='/'">Home</button>
+	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
 	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
 {% endblock %}
 
 {% block content %}
-	<br><h2>Delete Confirmation</h2><br>
+	<br><br><h2>Delete Confirmation</h2><br>
 	<form class="opt" method="post">
 		{% csrf_token %}
 		<p>Are you sure you want to delete "{{object}}"?</p>

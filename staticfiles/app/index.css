@@ -60,7 +60,7 @@ h2 {
     color:blanchedalmond;
     text-align: right;
     position: fixed;
-    right: 2em;
+    right: 2.5em;
     top: 6px;
 }
 
@@ -109,9 +109,10 @@ a {
     font-size: 14px;
 }
 
-.opt input[type="textbox"] {
+.opt input[type="textbox"], input[type="number"], input[type="date"], select, option {
     height: 27px;
     width: 297px;
+    margin-bottom: 1em;
     background-color: #034650;
     color: azure;
     border-color: transparent;
@@ -133,6 +134,11 @@ a {
     color: #d3d3d3;
 }
 
-.opt input[type="number"] {
-    color: #74cf18;
+.opt select, input[type="date"] {
+    height: auto;
+    width: auto;
+}
+
+.tb-shade {
+    background-color: #005c6b;
 }

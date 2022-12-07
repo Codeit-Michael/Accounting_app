@@ -102,20 +102,24 @@ class PortfolioDelete(LoginRequiredMixin,DeleteView):
 
 def trial_balance_computer(pk):
 	pfl = Portfolio.objects.get(id=pk)
-	tb_total = {}
+	trans_total = {}
 	tb_table = []
+	tb_total = [0, 0]
 	for trans in pfl.transaction_set.all():
-		if trans.trans_name not in tb_total:
-			tb_total[trans.trans_name] = 0
+		if trans.trans_name not in trans_total:
+			trans_total[trans.trans_name] = 0
 		if trans.trans_type == 'dbt':
-			tb_total[trans.trans_name] += trans.amount
+			trans_total[trans.trans_name] += trans.amount
 		else:
-			tb_total[trans.trans_name] -= trans.amount
-	for x in tb_total:
-		if tb_total[x] > 0:
-			tb_table.append((x, tb_total[x], ''))
-		elif tb_total[x] < 0:
-			tb_table.append((x, '', tb_total[x]))
+			trans_total[trans.trans_name] -= trans.amount
+	for x in trans_total:
+		if trans_total[x] > 0:
+			tb_table.append((x, trans_total[x], ''))
+			tb_total[0] += trans_total[x]
+		elif trans_total[x] < 0:
+			tb_table.append((x, '', trans_total[x]))
+			tb_total[1] += trans_total[x]
+	tb_table.append(('Total:', tb_total[0], tb_total[1]))
 	return pfl.name, tb_table
 
 
@@ -130,13 +134,12 @@ def t_accounts(pk):
 		else:
 			ledger[trans.trans_name].append(-trans.amount)
 	return ledger
-		
+
 
 class TrialBalance(LoginRequiredMixin, View):
-    
     def get(self, request, pk):
         tb = trial_balance_computer(pk)
         ta = t_accounts(pk)
         ta_JSON = dumps(ta)
-        context = {'name':tb[0], 'tb':tb[1], 'ta':ta_JSON}
+        context = {'pk':pk, 'name':tb[0], 'tb':tb[1], 'ta':ta_JSON}
         return render(request, 'app/trialbalance.html', context)

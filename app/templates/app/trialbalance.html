@@ -1,77 +1,89 @@
+
+{% extends "app/base.html" %}
 {% load app_extras %}
-<!DOCTYPE hmtl>
-<html>
-    <head>
-        <title>Trial Balance</title>
-    </head>
-    <body>
 
-        <div id="trial-balance">
-            <h1>{{name}}'s Trial Balance</h1>
-            <table>
+{% block title %}Trial Balance{% endblock %}
+
+{% block sidenav %}
+    <button onclick="window.location.href='/'">Home</button>
+	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
+    <button onclick="window.location.href='/pfl-journal/pk={{pk}}'">Journal</button>
+    <button class="logout" onclick="window.location.href='/logout'">Log out</button>
+{% endblock %}
+
+{% block content %}
+    <br><br>
+    <div id="trial-balance">
+        <h2>{{name}}'s Trial Balance</h2>
+        <table class="opt">
+            <tr class="tb-shade">
+                <th>Transaction</th>
+                <th>Debit</th>
+                <th>Credit</th>
+            </tr>
+            {% for trans in tb %}
                 <tr>
-                    <th>Transaction</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
+                    {% for item in trans %}
+                        <td>{{item}}</td>
+                    {% endfor %}
                 </tr>
-                {% for trans in tb %}
-                    <tr>
-                        {% for item in trans %}
-                            <td>{{item}}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+            {% endfor %}
+        </table>
+    </div>
 
-        <br><br>
+    <br><br>
 
-        <div id="t-account">
-            <h1>{{name}}'s T Accounts</h1>
-        </div>
+    <div class="t-account" id="t-account">
+        <h2>{{name}}'s T Accounts</h2>
+    </div>
 
-        <script>
-                var tAccount = JSON.parse("{{ta|escapejs}}");
-                dataNode = document.getElementById('t-account');
-                for (const trans in tAccount) {
-                    const transTable = document.createElement("table");
-                    const transCaption = document.createElement("caption");
-                    const transRow = document.createElement("tr");
-                    const transDb = document.createElement("td");
-                    const transCd = document.createElement("td");
-                    transCaption.innerText = trans;
-                    transDb.innerText = 'DEBIT';
-                    transCd.innerText = 'CREDIT';
-                    transRow.appendChild(transDb);
-                    transRow.appendChild(transCd);
-                    transTable.appendChild(transCaption);
-                    transTable.appendChild(transRow);
+    <script>
+        var tAccount = JSON.parse("{{ta|escapejs}}");
+        dataNode = document.getElementById('t-account');
+        for (const trans in tAccount) {
+            var sum = 0;
+            const transTable = document.createElement("table");
+            const transCaption = document.createElement("caption");
+            const transRow = document.createElement("tr");
+            const transDb = document.createElement("th");
+            const transCd = document.createElement("th");
+            transCaption.innerText = trans;
+            transDb.innerText = 'Debit';
+            transCd.innerText = 'Credit';
+            transRow.appendChild(transDb);
+            transRow.appendChild(transCd);
+            transTable.appendChild(transCaption);
+            transTable.appendChild(transRow);
 
-                    tAccount[trans].forEach (data => {
-                        console.log(data);
-                        const tableRow = document.createElement("tr");
-                        const tableDb = document.createElement("td");
-                        const tableCd = document.createElement("td");
+            tAccount[trans].forEach (data => {
+                sum = sum + data;
+                const tableRow = document.createElement("tr");
+                const tableDb = document.createElement("td");
+                tableDb.className = "debit"
+                const tableCd = document.createElement("td");
+                tableCd.className = "credit"
 
-                        if (data > 0 ) {
-                            tableDb.innerText = data;
-                            tableCd.innerText = '';
-                        }
-
-                        else if (data < 0 ) {
-                            tableDb.innerText = '';
-                            tableCd.innerText = data;
-                        }
-
-                        tableRow.appendChild(tableDb);
-                        tableRow.appendChild(tableCd);
-                        transTable.append(tableRow);
-                    });
-                    
-                    dataNode.appendChild(transTable);
-                    spc = document.createElement("br");
-                    dataNode.appendChild(spc);
+                if (data > 0 ) {
+                    tableDb.innerText = data;
+                    tableCd.innerText = '';
                 }
-        </script>
-    </body>
-</html>
+
+                else if (data < 0 ) {
+                    tableDb.innerText = '';
+                    tableCd.innerText = data;
+                }
+
+                tableRow.appendChild(tableDb);
+                tableRow.appendChild(tableCd);
+                transTable.append(tableRow);
+            });
+            
+            dataNode.appendChild(transTable);
+            ttl = document.createElement("p");
+            ttl.innerText = `Total = ${sum}`;
+            dataNode.appendChild(ttl);
+            spc = document.createElement("br");
+            dataNode.appendChild(spc);
+        }
+    </script>
+{% endblock %}
