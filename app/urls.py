@@ -9,7 +9,6 @@ urlpatterns = [
 	path('pfl-create/', PortfolioCreate.as_view(), name='pfl-create'),
 	path('', PortfolioList.as_view(), name='pfl-list'),
 	path('pfl-journal/pk=<int:pk>', PortfolioJournal.as_view(), name='pfl-detail'),
-	# path('ledger/pk=<int:pk>', Ledger.as_view(), name='pfl-ledger'),
 	path('pfl-delete/pk=<int:pk>', PortfolioDelete.as_view(), name='pfl-delete'),
 	path('pfl-tb/pk=<int:pk>', TrialBalance.as_view(), name='trial-balance')
 ]

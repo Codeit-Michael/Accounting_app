@@ -1,0 +1,138 @@
+body {
+    background-color: #005c6b;
+    font-family: Tahoma;
+    font-size: 14px;
+}
+
+h2 {
+    text-align: center;
+    color: #ffcc66;
+}
+
+.sidenav {
+    width: 140px;
+    height: 29vh;
+    position: fixed;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+    margin-top: 1em; 
+    margin-left: 0.5em;
+    border-radius: 9px;
+    border: transparent;
+}
+
+.sidenav button {
+    padding: 3px 7px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+    font-size: 1.1rem;
+    color: #8b7272;
+    display: block;
+    width: 87%;
+    min-width: 45px;
+    max-width: 300px;
+    background-color: #9affff;
+    color: #004291;
+    border-radius: 6px;
+    border: transparent;
+}
+
+.sidenav button:hover {
+    background-color: #4aadad;
+    color: #ffe600;
+}
+
+.sidenav .logout {
+    width: 84%;
+    border-radius: 13px;
+    background-color: #4aadad;
+    color: #f7e226;
+}
+
+.sidenav .logout:hover {
+    background-color: crimson;
+    color: #ffe600;
+}
+
+.username {
+    color:blanchedalmond;
+    text-align: right;
+    position: fixed;
+    right: 2em;
+    top: 6px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center td {
+    border-top: 2px solid #a37687;
+    color: white;
+    width: 250px;
+    min-height: 200px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.delete {
+    padding: 5px;
+    font-size: 1.1rem;
+    color: #8b7272;
+    width: 50%;
+    min-width: 45px;
+    max-width: 300px;
+    background-color: #9affff;
+    color: #004291;
+    border-radius: 18px;
+    border: transparent;
+}
+
+.delete:hover {
+    background-color: crimson;
+    color: #ffe600;
+}
+
+a {
+    color: antiquewhite;
+}
+
+.opt {
+    margin: auto;
+    padding: 0;
+    color: azure;
+    text-align: center;
+    width: 60%;
+    font-size: 14px;
+}
+
+.opt input[type="textbox"] {
+    height: 27px;
+    width: 297px;
+    background-color: #034650;
+    color: azure;
+    border-color: transparent;
+    border-radius: 9px;
+}
+
+.opt input[type="submit"] {
+    background-color: #74cf18;
+    color: #ffffff;
+    height: 47px;
+    width: 127px;
+    font-size: large;
+    border: transparent;
+    border-radius: 12px;
+}
+
+.opt input[type="submit"]:hover {
+    background-color: #5f912e;
+    color: #d3d3d3;
+}
+
+.opt input[type="number"] {
+    color: #74cf18;
+}

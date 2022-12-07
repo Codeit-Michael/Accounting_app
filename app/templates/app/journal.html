@@ -1,16 +1,20 @@
+{% extends 'app/base.html' %}
 {% load app_extras %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Details</title>
-</head>
-<body>
 
-	<h1>{{pfl.name}}'s Portfolio</h1>
+{% block title %}Details{% endblock %}
+
+{% block sidenav %}
+	<button onclick="window.location.href='/'">Home</button>
+	<button onclick="window.location.href='/pfl-tb/pk={{pfl.id}}'">Trial Balance</button>
+	<button class="logout" onclick="window.location.href='/logout'">Log out</button>
+{% endblock %}
+
+{% block content %}
+	<br><h2>{{pfl.name}}'s Portfolio</h2><br>
 
 	{% journal_table pfl as jt %}
-	<table style='background-color:grey' width='400'>
-		<thead style='background-color:yellow'>
+	<table class="opt">
+		<thead>
 			<tr>
 				<td>Date</td>
 				<td>Transaction</td>
@@ -18,7 +22,7 @@
 				<td>Credit</td>
 			</tr>
 		</thead>
-		<tbody style='background-color:lightgrey'>
+		<tbody>
 			{% for transaction in jt.tbl %}
 				<tr>
 					{% for items in transaction %}
@@ -37,7 +41,7 @@
 
 	<br>
 
-	<form method="post" action="">
+	<form class="opt" method="post" action="">
 		{% csrf_token %}
 		<select name="dbt">
 			<option disabled="" selected="" value="">Select Debit Transaction type</option>
@@ -65,9 +69,6 @@
         <br>
         <input type="date" name="trans-date">
         <br>
-		<button type="submit" name="save" value="save">Save</button>
+		<input type="submit" name="save" value="Save">
 	</form>
-
-	<a href="{% url "trial-balance" pfl.id %}">T accounts and Trial Balance</a>
-</body>
-</html>
+{% endblock %}
