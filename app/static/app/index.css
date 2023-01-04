@@ -4,6 +4,14 @@ body {
     font-size: 15px;
 }
 
+img {
+    position: fixed;
+    right: 19px;
+    top: 23px;
+    height:6%;
+    width:4%;
+}
+
 h2 {
     text-align: center;
     color: #ffcc66;

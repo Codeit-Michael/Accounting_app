@@ -1,7 +1,15 @@
 body {
     background-color: #005c6b;
     font-family: Tahoma;
-    font-size: 14px;
+    font-size: 15px;
+}
+
+img {
+    position: fixed;
+    right: 19px;
+    top: 23px;
+    height:6%;
+    width:4%;
 }
 
 h2 {
@@ -61,7 +69,7 @@ h2 {
     text-align: right;
     position: fixed;
     right: 2.5em;
-    top: 6px;
+    top: 1px;
 }
 
 .center {
@@ -140,5 +148,40 @@ a {
 }
 
 .tb-shade {
-    background-color: #005c6b;
+    background-color: #114b53;
+    font-weight: bold;
+}
+
+#t-account {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 40%;
+    color: azure;
+}
+
+#trial-balance tr:last-of-type {
+    background-color: #114b53;
+}
+
+#t-account caption {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#t-account table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#t-account th {
+    border-bottom: 2px solid #10363b;
+}
+
+#t-account .debit {
+    border-right: 2px solid #10363b;
+}
+
+#t-account .credit {
+    border-left: 2px solid #10363b;
 }

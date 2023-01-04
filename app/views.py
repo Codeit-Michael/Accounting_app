@@ -1,6 +1,4 @@
 from django.shortcuts import render,redirect
-from json import dumps
-from .models import Portfolio
 
 from django.views.generic import View
 from django.views.generic.detail import DetailView
@@ -13,12 +11,15 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 
+from .models import Portfolio
+from json import dumps
+
 # Create your views here.
 class UserSignup(FormView):
 	template_name = 'app/signup.html'
 	form_class = UserCreationForm
 	redirect_authenticated_user = True
-	success_url = reverse_lazy('login')
+	success_url = reverse_lazy('pfl-list')
 
 
 	def form_valid(self, form):
@@ -61,16 +62,16 @@ class PortfolioCreate(LoginRequiredMixin,View):
 		return redirect('pfl-detail', my_object)
 
 
-class PortfolioJournal(LoginRequiredMixin,DetailView):
+class Journal(LoginRequiredMixin,DetailView):
 	model = Portfolio
 	template_name = 'app/journal.html'
 	context_object_name = 'pfl'
 
 	def get(self,*args,**kwargs):
-		return super(PortfolioJournal, self).get(*args,**kwargs)
+		return super(Journal, self).get(*args,**kwargs)
 
 	def post(self,*args,**kwargs):
-		return super(PortfolioJournal, self).get(*args,**kwargs)
+		return super(Journal, self).get(*args,**kwargs)
 
 	def dispatch(self,request,pk,*args,**kwargs):
 		dbt_trans, dbt_amt = request.POST.get('dbt'), request.POST.get('dbt-amt')
@@ -86,13 +87,8 @@ class PortfolioJournal(LoginRequiredMixin,DetailView):
 					cdt_whole_trans.save()
 					print(True)
 			except:
-				return super(PortfolioJournal, self).dispatch(request,*args,**kwargs)
-
-		# elif request.POST.get('delete_this'):
-		# 	trans_index = request.POST.get('delete_this')
-		# 	pfl.debit_set.get(id=trans_index).delete()
-
-		return super(PortfolioJournal, self).dispatch(request,*args,**kwargs)
+				return super(Journal, self).dispatch(request,*args,**kwargs)
+		return super(Journal, self).dispatch(request,*args,**kwargs)
 
 
 class PortfolioDelete(LoginRequiredMixin,DeleteView):
