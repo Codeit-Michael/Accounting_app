@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Sign in</title>
-</head>
-<body>
+{% extends 'app/auth_base.html' %}
 
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
 	<h1>Log In</h1>
 
 	{% for message in messages %}
@@ -19,5 +17,4 @@
 		<button type="submit" name="signin">Sign in</button>
 		<button onclick="location.href = '/signup'" class="nxt-pg">Create your Account</button>
 	</form>
-</body>
-</html>
+{% endblock %}

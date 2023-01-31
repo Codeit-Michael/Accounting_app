@@ -1,15 +1,7 @@
-
 {% extends "app/base.html" %}
 {% load app_extras %}
 
 {% block title %}Trial Balance{% endblock %}
-
-{% block sidenav %}
-    <button onclick="window.location.href='/'">Home</button>
-	<button onclick="window.location.href='/pfl-create'">Add Portfolio</button>
-    <button onclick="window.location.href='/pfl-journal/pk={{pk}}'">Journal</button>
-    <button class="logout" onclick="window.location.href='/logout'">Log out</button>
-{% endblock %}
 
 {% block content %}
     <br><br>
@@ -36,6 +28,9 @@
     <div class="t-account" id="t-account">
         <h2>{{name}}'s T Accounts</h2>
     </div>
+
+   <button onclick="window.location.href='/pfl-journal/pk={{pk}}'">Back to Journal</button>
+
 
     <script>
         var tAccount = JSON.parse("{{ta|escapejs}}");
