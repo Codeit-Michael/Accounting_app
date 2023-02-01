@@ -4,7 +4,7 @@
 
 {% block content %}
 	<br><br><h2>MY PORTFOLIO LIST</h2><br>
-	<table class="center">
+	<table>
 		{% for pfl in portfolio.portfolio_set.all %}
 			<tr>
 				<td><h3><a href="{% url 'pfl-detail' pfl.id %}">{{pfl.name}}</a><h3></td>

@@ -4,7 +4,8 @@
 {% block title %}Details{% endblock %}
 
 {% block content %}
-	<br><br><h2>{{pfl.name}}'s Portfolio</h2><br>
+<div style="display: flex; flex-direction: column; justify-content: center; width: fit-content; margin: 0 auto;">
+	<h2 style="text-align: center;">{{pfl.name}}'s Portfolio</h2>
 
 	{% journal_table pfl as jt %}
 	<table class="opt">
@@ -29,11 +30,9 @@
 				<td>Total:</td>
 				<td>{{jt.dt}}</td>
 				<td>{{jt.ct}}</td>
-			<tr>
+			</tr>
 		</tbody>
 	</table>
-
-	<br>
 
 	<form class="opt" method="post" action="">
 		{% csrf_token %}
@@ -67,4 +66,5 @@
 	</form>
 
 	<button onclick="window.location.href='/pfl-tb/pk={{pfl.id}}'">Trial Balance</button>
+</div>
 {% endblock %}
