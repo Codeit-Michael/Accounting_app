@@ -3,10 +3,14 @@
 {% block title %}Person Create{% endblock %}
 
 {% block content %}
-	<br><br><h2>Create New Portfolio</h2><br>
-	<form class="opt" method="post" action="">
-		{% csrf_token %}
-		<input type="textbox" name="portfolio_name" placeholder="Portfolio Name">
-		<input type="submit" value="Create">
-	</form>
+	<div class="w-50 mx-auto p-3 bg-primary-subtle border border-primary-subtle rounded-3">
+		<h2 class="text-center">Create New Portfolio</h2>
+		<form method="post" action="">
+			{% csrf_token %}
+			<div class="d-grid col-6 mx-auto gap-1">
+				<input type="textbox" name="portfolio_name" placeholder="Portfolio Name">
+				<input class="btn btn-success" type="submit" value="Create">
+			</div>
+		</form>
+	</div>
 {% endblock %}

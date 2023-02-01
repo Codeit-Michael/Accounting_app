@@ -4,67 +4,97 @@
 {% block title %}Details{% endblock %}
 
 {% block content %}
-<div style="display: flex; flex-direction: column; justify-content: center; width: fit-content; margin: 0 auto;">
-	<h2 style="text-align: center;">{{pfl.name}}'s Portfolio</h2>
+<div class="w-75 mx-auto p-2">
+	<h2>{{pfl.name}}'s Portfolio</h2>
 
 	{% journal_table pfl as jt %}
-	<table class="opt">
-		<thead>
-			<tr class="tb-shade">
-				<td>Date</td>
-				<td>Transaction</td>
-				<td>Debit</td>
-				<td>Credit</td>
-			</tr>
-		</thead>
-		<tbody>
-			{% for transaction in jt.tbl %}
-				<tr>
-					{% for items in transaction %}
-						<td>{{items}}</td>
-					{% endfor %}
+	<div>
+		<table class="mx-auto table table-striped border border-primary-subtle">
+			<thead>
+				<tr class="bg-info">
+					<td>Date</td>
+					<td>Transaction</td>
+					<td>Debit</td>
+					<td>Credit</td>
 				</tr>
-			{% endfor %}
-			<tr class="tb-shade">
-				<td></td>
-				<td>Total:</td>
-				<td>{{jt.dt}}</td>
-				<td>{{jt.ct}}</td>
-			</tr>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for transaction in jt.tbl %}
+					<tr class="bg-secondary-subtle">
+						{% for items in transaction %}
+							<td>{{items}}</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+				<tr class="bg-info-subtle">
+					<td></td>
+					<td>Total:</td>
+					<td>{{jt.dt}}</td>
+					<td>{{jt.ct}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-	<form class="opt" method="post" action="">
-		{% csrf_token %}
-		<select name="dbt">
-			<option disabled="" selected="" value="">Select Debit Transaction type</option>
-			<option value="asset">Asset</option>
-			<option value="liability">Liability</option>
-			<option value="capital">Capital</option>
-			<option value="accounts receivable">Accounts Receivable</option>
-			<option value="accounts payable">Accounts Payable</option>
-			<option value="notes receivable">Notes Receivable</option>
-			<option value="notes payable">Notes Payable</option>
-		</select>
-        <input type="number" name="dbt-amt" placeholder="Enter Debit amount...">
-		<br>
-		<select name="cdt">
-			<option disabled="" selected="" value="">Select Credit Transaction type</option>
-			<option value="asset">Asset</option>
-			<option value="liability">Liability</option>
-			<option value="capital">Capital</option>
-			<option value="accounts receivable">Accounts Receivable</option>
-			<option value="accounts payable">Accounts Payable</option>
-			<option value="notes receivable">Notes Receivable</option>
-			<option value="notes payable">Notes Payable</option>
-		</select>
-        <input type="number" name="cdt-amt" placeholder="Enter Credit amount...">
-        <br>
-        <input type="date" name="trans-date">
-        <br>
-		<input type="submit" name="save" value="Save">
+	<form method="post" action="">
+		<div class="vstack gap-2">
+			{% csrf_token %}
+
+			<div class="input-group">
+				<label class="input-group-text" for="inputGroupSelect01">Debit Options</label>
+				<select name="dbt" class="form-select" id="inputGroupSelect01">
+					<option disabled="" selected="" value="">Select Debit Transaction type</option>
+					<option value="asset">Asset</option>
+					<option value="liability">Liability</option>
+					<option value="capital">Capital</option>
+					<option value="accounts receivable">Accounts Receivable</option>
+					<option value="accounts payable">Accounts Payable</option>
+					<option value="notes receivable">Notes Receivable</option>
+					<option value="notes payable">Notes Payable</option>
+				</select>
+			</div>
+
+			<div class="input-group mb">
+				<span class="input-group-text">$</span>
+	        		<input type="number" class="form-control" name="dbt-amt" placeholder="Enter Debit amount...">
+				<span class="input-group-text">.00</span>
+			</div>
+
+			<div class="input-group">
+				<label class="input-group-text" for="inputGroupSelect02">Credit Options</label>
+				<select name="cdt" class="form-select" id="inputGroupSelect02">
+					<option disabled="" selected="" value="">Select Credit Transaction type</option>
+					<option value="asset">Asset</option>
+					<option value="liability">Liability</option>
+					<option value="capital">Capital</option>
+					<option value="accounts receivable">Accounts Receivable</option>
+					<option value="accounts payable">Accounts Payable</option>
+					<option value="notes receivable">Notes Receivable</option>
+					<option value="notes payable">Notes Payable</option>
+				</select>
+			</div>
+
+			<div class="input-group">
+				<span class="input-group-text">$</span>
+	        		<input type="number" class="form-control" name="cdt-amt" placeholder="Enter Credit amount...">
+				<span class="input-group-text">.00</span>
+			</div>
+
+			<div class="input-group d-grid col-6">
+	        	<input type="date" name="trans-date">
+	        </div>
+
+	        <div class="d-grid col-8 mx-auto">
+				<input class="btn btn-success" type="submit" name="save" value="Save">
+			</div>
+
+		</div>
 	</form>
 
-	<button onclick="window.location.href='/pfl-tb/pk={{pfl.id}}'">Trial Balance</button>
+    <div class="d-grid col-6 mx-auto mt-4">
+		<button class="btn text-primary border-primary-subtle" onclick="window.location.href='/pfl-tb/pk={{pfl.id}}'">Trial Balance</button>
+	</div>
+
 </div>
 {% endblock %}
+
